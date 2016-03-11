@@ -71,8 +71,8 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
                 $locationModel->lng = $value['lng'];
                 $locationModel->entryId = $this->element->id;
 
-                if (!empty($value['textId'])) {
-                    $locationModel->id = $value['textId'];
+                if (!empty($value['locationId'])) {
+                    $locationModel->id = $value['locationId'];
                 }
 
                 craft()->craftGmaps_location->createOrUpdateRecord($locationModel);
