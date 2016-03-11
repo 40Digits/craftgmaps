@@ -13,7 +13,7 @@ class CraftGmaps_LocationService extends BaseApplicationComponent
     {
         if ($locationModel->validate()) {
             $locationRecord = $this->findOrInstantiateRecord($locationModel->getAttribute('id'));
-            $locationRecord->setAttribute('name', $locationModel->name);
+            $locationRecord->setAttribute('formattedAddress', $locationModel->formattedAddress);
             $locationRecord->setAttribute('lat', $locationModel->lat);
             $locationRecord->setAttribute('lng', $locationModel->lng);
             $locationRecord->setAttribute('entryId', $locationModel->entryId);

@@ -1,5 +1,5 @@
-function googleMapify(textId, mapId, latId, lngId) {
-  var textEl = document.getElementById(textId);
+function googleMapify(formattedAddressId, mapId, latId, lngId) {
+  var formattedAddressEl = document.getElementById(formattedAddressId);
   var mapEl = document.getElementById(mapId);
   var latEl = document.getElementById(latId);
   var lngEl = document.getElementById(lngId);
@@ -14,7 +14,7 @@ function googleMapify(textId, mapId, latId, lngId) {
         map.fitBounds(results[0].geometry.viewport);
         map.setCenter(results[0].geometry.location);
         marker.setPosition(results[0].geometry.location);
-        textEl.value = results[0].formatted_address;
+        formattedAddressEl.value = results[0].formatted_address;
         latEl.value = results[0].geometry.location.lat();
         lngEl.value = results[0].geometry.location.lng();
       } else {
@@ -24,8 +24,8 @@ function googleMapify(textId, mapId, latId, lngId) {
   };
 
 
-  textEl.addEventListener('change', function() {
+  formattedAddressEl.addEventListener('change', function() {
     geocodeSearch(this.value);
   });
-  geocodeSearch(textEl.value);
+  geocodeSearch(formattedAddressEl.value);
 };

@@ -66,7 +66,7 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
                 $value = $_POST['fields'][$fieldHandle];
 
                 $locationModel = new CraftGmaps_LocationModel();
-                $locationModel->name = $value['text'];
+                $locationModel->formattedAddress = $value['formattedAddress'];
                 $locationModel->lat = $value['lat'];
                 $locationModel->lng = $value['lng'];
                 $locationModel->entryId = $this->element->id;

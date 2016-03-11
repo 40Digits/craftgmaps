@@ -11,7 +11,7 @@ class CraftGmaps_LocationRecord extends BaseRecord
     protected function defineAttributes()
     {
         return array(
-            'name' => array(AttributeType::String),
+            'formattedAddress' => array(AttributeType::String),
             'entryId' => array(AttributeType::Number),
             'lat' => array(AttributeType::String),
             'lng' => array(AttributeType::String),
