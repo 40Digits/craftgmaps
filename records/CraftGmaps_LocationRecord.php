@@ -12,7 +12,9 @@ class CraftGmaps_LocationRecord extends BaseRecord
     {
         return array(
             'name' => array(AttributeType::String),
-            'entryId' => array(AttributeType::Number)
+            'entryId' => array(AttributeType::Number),
+            'lat' => array(AttributeType::String),
+            'lng' => array(AttributeType::String),
         );
     }
 

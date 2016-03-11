@@ -10,6 +10,8 @@ class CraftGmaps_LocationModel extends BaseModel
             'name' => AttributeType::String,
             'entryId' => AttributeType::Number,
             'entry' => AttributeType::ClassName,
+            'lat' => AttributeType::String,
+            'lng' => AttributeType::String,
         );
     }
 

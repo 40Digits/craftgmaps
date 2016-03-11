@@ -17,13 +17,23 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
     {
         $textId = craft()->templates->formatInputId($name);
         $mapId = 'maps';
+        $lngId = 'lat';
+        $latId = 'lng';
+
         $namespacedTextId = craft()->templates->namespaceInputId($textId);
         $namespacedMapId = craft()->templates->namespaceInputId($mapId);
+        $namespacedLngId = craft()->templates->namespaceInputId($lngId);
+        $namespacedLatId = craft()->templates->namespaceInputId($latId);
 
         craft()->templates->includeJsFile('//maps.googleapis.com/maps/api/js');
         craft()->templates->includeJsResource('craftgmaps/js/input.js');
         craft()->templates->includeJs(
-            "googleMapify('" . $namespacedTextId . "', '" . $namespacedMapId . "');"
+            "googleMapify(
+                '" . $namespacedTextId . "', 
+                '" . $namespacedMapId . "',
+                '" . $namespacedLngId . "',
+                '" . $namespacedLatId . "'
+            );"
         );
 
         return craft()->templates->render('craftgmaps/gmaps/input', array(
@@ -31,8 +41,9 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
             'location' => $locationModel,
             'textId' => $textId,
             'mapId' => $mapId,
+            'latId' => $latId,
+            'lngId' => $lngId,
             'namespacedMapId' => $namespacedMapId,
-            'namespacedTextId' => $namespacedTextId
         ));
     }
 
@@ -56,10 +67,12 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
 
                 $locationModel = new CraftGmaps_LocationModel();
                 $locationModel->name = $value['text'];
+                $locationModel->lat = $value['lat'];
+                $locationModel->lng = $value['lng'];
                 $locationModel->entryId = $this->element->id;
 
-                if (!empty($value['id'])) {
-                    $locationModel->id = $value['id'];
+                if (!empty($value['textId'])) {
+                    $locationModel->id = $value['textId'];
                 }
 
                 craft()->craftGmaps_location->createOrUpdateRecord($locationModel);
