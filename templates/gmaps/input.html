@@ -1,0 +1,11 @@
+<input id="{{ textId }}" type="text" class="text fullwidth" name="{{ name }}[text]" value="{{ location.name }}">
+<input type="hidden" name="{{ name }}[textId]" value="{{ location.id }}">
+
+<style>
+  #{{ namespacedMapId }} {
+    width: 100% !important;
+    height: 400px !important;
+  }
+</style>
+
+<div id="{{ mapId }}"></div>
