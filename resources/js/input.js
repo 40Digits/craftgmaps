@@ -47,5 +47,5 @@ function googleMapify(formattedAddressId, mapId, latId, lngId, defaultLat, defau
 
   formattedAddressEl.addEventListener('change', function() {
     geocodeSearch(this.value);
-j });
+  });
 };
