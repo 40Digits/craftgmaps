@@ -3,9 +3,20 @@ function googleMapify(formattedAddressId, mapId, latId, lngId) {
   var mapEl = document.getElementById(mapId);
   var latEl = document.getElementById(latId);
   var lngEl = document.getElementById(lngId);
-  var map = new google.maps.Map(mapEl);
+
+  var mapCenter = { 
+    lat: parseFloat(latEl.value), 
+    lng: parseFloat(lngEl.value) 
+  };
+
+  var map = new google.maps.Map(mapEl, {
+    center: mapCenter,
+    zoom: 12
+  });
+  
   var marker = new google.maps.Marker({
     map: map,
+    position: mapCenter,
   });
 
   var geocodeSearch = function(address) {
@@ -23,9 +34,7 @@ function googleMapify(formattedAddressId, mapId, latId, lngId) {
     });
   };
 
-
   formattedAddressEl.addEventListener('change', function() {
     geocodeSearch(this.value);
-  });
-  geocodeSearch(formattedAddressEl.value);
+j });
 };
