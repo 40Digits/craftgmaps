@@ -32,10 +32,10 @@ function googleMapify(formattedAddressId, mapId, latId, lngId, defaultLat, defau
     position: mapCenter,
   });
 
-  var geocodeResults = function(results, status) {
+  var geocodeResults = function(results, status, givenLocation) {
     if (status === google.maps.GeocoderStatus.OK && !!results[0]) {
       var result = results[0];
-      var location = result.geometry.location;
+      var location = !!givenLocation ? givenLocation : result.geometry.location;
 
       map.fitBounds(result.geometry.viewport);
       map.setCenter(location);
@@ -71,11 +71,8 @@ function googleMapify(formattedAddressId, mapId, latId, lngId, defaultLat, defau
   });
 
   google.maps.event.addListener(marker, "dragend", function () {
-    var latlng = { 
-      lat: marker.getPosition().lat(),
-      lng: marker.getPosition().lng()
-    };
-
-    geocoder.geocode({ 'location': latlng }, geocodeResults);
+    geocoder.geocode({ 'location': marker.getPosition() }, function(results, status) {
+     geocodeResults(results, status, marker.getPosition());
+    });
   });
 };
