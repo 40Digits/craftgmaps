@@ -32,7 +32,9 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
                 '" . $namespacedTextId . "', 
                 '" . $namespacedMapId . "',
                 '" . $namespacedLngId . "',
-                '" . $namespacedLatId . "'
+                '" . $namespacedLatId . "',
+                '" . $this->getSettings()->defaultLat . "',
+                '" . $this->getSettings()->defaultLng . "'
             );"
         );
 
@@ -44,15 +46,23 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
             'latId' => $latId,
             'lngId' => $lngId,
             'namespacedMapId' => $namespacedMapId,
+            'settings' => $this->getSettings()
         ));
+    }
+
+    protected function defineSettings()
+    {
+        return array(
+            'defaultLat' => array(AttributeType::String),
+            'defaultLng' => array(AttributeType::String)
+        );
     }
 
     public function getSettingsHtml()
     {
-        #TODO add google maps api keys
-        #TODO add default center of map
-
-        return '';
+        return craft()->templates->render('craftgmaps/gmaps/settings', array(
+            'settings' => $this->getSettings()
+        ));
     }
 
     public function prepValueFromPost($value) {}

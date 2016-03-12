@@ -1,17 +1,28 @@
-function googleMapify(formattedAddressId, mapId, latId, lngId) {
+function googleMapify(formattedAddressId, mapId, latId, lngId, defaultLat, defaultLng) {
   var formattedAddressEl = document.getElementById(formattedAddressId);
   var mapEl = document.getElementById(mapId);
   var latEl = document.getElementById(latId);
   var lngEl = document.getElementById(lngId);
 
-  var mapCenter = { 
-    lat: parseFloat(latEl.value), 
-    lng: parseFloat(lngEl.value) 
-  };
+  if (!!latEl.value && !!lngEl.value) {
+    var mapCenter = { 
+      lat: parseFloat(latEl.value),
+      lng: parseFloat(lngEl.value)
+    }
+    
+    var zoom = 12;
+  } else {
+    var mapCenter = { 
+      lat: parseFloat(defaultLat),
+      lng: parseFloat(defaultLng)
+    }
+    
+    var zoom = 4;
+  }
 
   var map = new google.maps.Map(mapEl, {
     center: mapCenter,
-    zoom: 12
+    zoom: zoom
   });
   
   var marker = new google.maps.Marker({
