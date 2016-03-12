@@ -36,6 +36,7 @@ function googleMapify(formattedAddressId, mapId, latId, lngId, defaultLat, defau
         map.fitBounds(results[0].geometry.viewport);
         map.setCenter(results[0].geometry.location);
         marker.setPosition(results[0].geometry.location);
+
         formattedAddressEl.value = results[0].formatted_address;
         latEl.value = results[0].geometry.location.lat();
         lngEl.value = results[0].geometry.location.lng();

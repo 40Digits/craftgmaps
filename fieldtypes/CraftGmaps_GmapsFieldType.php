@@ -69,6 +69,11 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
 
     public function onAfterElementSave()
     {
+        // echo "<pre>";
+        // print_r($this->element->id);
+        // echo "</pre>";
+        // exit;
+
         $fieldHandle = $this->model->handle;
 
         if ($this->element !== null) {
@@ -79,11 +84,12 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
                 $locationModel->formattedAddress = $value['formattedAddress'];
                 $locationModel->lat = $value['lat'];
                 $locationModel->lng = $value['lng'];
-                $locationModel->entryId = $this->element->id;
+                $locationModel->elementId = $this->element->id;
 
                 if (!empty($value['locationId'])) {
                     $locationModel->id = $value['locationId'];
                 }
+
 
                 craft()->craftGmaps_location->createOrUpdateRecord($locationModel);
                 $this->element->getContent()->setAttribute($fieldHandle, $locationModel->id);

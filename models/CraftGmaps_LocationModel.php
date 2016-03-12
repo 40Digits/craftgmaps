@@ -8,8 +8,8 @@ class CraftGmaps_LocationModel extends BaseModel
         return array(
             'id' => AttributeType::Number,
             'formattedAddress' => AttributeType::String,
-            'entryId' => AttributeType::Number,
-            'entry' => AttributeType::ClassName,
+            'elementId' => AttributeType::Number,
+            'element' => AttributeType::ClassName,
             'lat' => AttributeType::String,
             'lng' => AttributeType::String,
         );
