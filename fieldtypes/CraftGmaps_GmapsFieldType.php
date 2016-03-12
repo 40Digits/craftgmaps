@@ -24,8 +24,9 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
         $namespacedMapId = craft()->templates->namespaceInputId($mapId);
         $namespacedLngId = craft()->templates->namespaceInputId($lngId);
         $namespacedLatId = craft()->templates->namespaceInputId($latId);
+        $apiKey = "?key=" . craft()->plugins->getPlugin('craftgmaps')->getSettings()->googleMapsApiKey;
 
-        craft()->templates->includeJsFile('//maps.googleapis.com/maps/api/js');
+        craft()->templates->includeJsFile('//maps.googleapis.com/maps/api/js' . $apiKey);
         craft()->templates->includeJsResource('craftgmaps/js/input.js');
         craft()->templates->includeJs(
             "googleMapify(
@@ -69,11 +70,6 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
 
     public function onAfterElementSave()
     {
-        // echo "<pre>";
-        // print_r($this->element->id);
-        // echo "</pre>";
-        // exit;
-
         $fieldHandle = $this->model->handle;
 
         if ($this->element !== null) {

@@ -45,4 +45,18 @@ class CraftGmapsPlugin extends BasePlugin
     {
         return 'www.davidhahn.me';
     }
+
+    protected function defineSettings()
+    {
+        return array(
+            'googleMapsApiKey' => array(AttributeType::String),
+        );
+    }
+
+    public function getSettingsHtml()
+    {
+        return craft()->templates->render('craftgmaps/settings', array(
+            'settings' => $this->getSettings()
+        ));
+    }
 }
