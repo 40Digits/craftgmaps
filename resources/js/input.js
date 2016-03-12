@@ -45,8 +45,13 @@ function googleMapify(formattedAddressId, mapId, latId, lngId, defaultLat, defau
       }
     });
   };
-
-  formattedAddressEl.addEventListener('change', function() {
-    geocodeSearch(this.value);
+  
+  var searchTimeout;
+  formattedAddressEl.addEventListener('keyup', function() {
+    address = this.value;
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout( function() { 
+      geocodeSearch(address);
+    }, 750);
   });
 };
