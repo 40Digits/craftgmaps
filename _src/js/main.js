@@ -1,14 +1,36 @@
 /* global google */
 
 window.googleMapify = function googleMapify(
-    formattedAddressId, mapId, latId, lngId, defaultLat, defaultLng
+    formattedAddressId,
+    mapId,
+    latId,
+    lngId,
+    streetId,
+    cityId,
+    stateId,
+    countryId,
+    zipId,
+    defaultLat,
+    defaultLng
 ) {
-  // Dom nodes
   const formattedAddressEl = document.getElementById(formattedAddressId);
   const mapEl = document.getElementById(mapId);
   const latEl = document.getElementById(latId);
   const lngEl = document.getElementById(lngId);
+  const streetEl = document.getElementById(streetId);
+  const cityEl = document.getElementById(cityId);
+  const stateEl = document.getElementById(stateId);
+  const countryEl = document.getElementById(countryId);
+  const zipEl = document.getElementById(zipId);
   const geocoder = new google.maps.Geocoder();
+  const componentForm = {
+    street_number: 'short_name',
+    route: 'long_name',
+    locality: 'long_name',
+    administrative_area_level_1: 'short_name',
+    country: 'long_name',
+    postal_code: 'short_name',
+  };
   let autocomplete;
   let mapCenter;
   let zoom;
@@ -38,9 +60,19 @@ window.googleMapify = function googleMapify(
     position: mapCenter,
   });
 
-  const updateValues = function updateValues(lat, lng) {
+  const updateValues = function updateValues(lat, lng, addressComponents) {
     latEl.value = lat;
     lngEl.value = lng;
+
+    if (!!addressComponents) {
+      streetEl.value = !!addressComponents.street_number ? addressComponents.street_number : '';
+      streetEl.value += !!addressComponents.route ? ` ${addressComponents.route}` : '';
+      cityEl.value = !!addressComponents.locality ? addressComponents.locality : '';
+      stateEl.value = !!addressComponents.administrative_area_level_1 ?
+        addressComponents.administrative_area_level_1 : '';
+      countryEl.value = !!addressComponents.country ? addressComponents.country : '';
+      zipEl.value = !!addressComponents.postal_code ? addressComponents.postal_code : '';
+    }
   };
 
   const geocodeResults = function geocodeResults(results, status, givenLocation) {
@@ -63,11 +95,24 @@ window.googleMapify = function googleMapify(
 
   const onPredictionSelection = function onPredictionSelection() {
     const place = autocomplete.getPlace();
+    const addressComponents = {};
+
+    // Get each component of the address from the place details
+    // and fill the corresponding field on the form.
+    for (let i = 0; i < place.address_components.length; i++) {
+      const addressType = place.address_components[i].types[0];
+      if (componentForm[addressType]) {
+        const val = place.address_components[i][componentForm[addressType]];
+        addressComponents[addressType] = val;
+      }
+    }
 
     updateValues(
       place.geometry.location.lat(),
-      place.geometry.location.lng()
+      place.geometry.location.lng(),
+      addressComponents
     );
+    console.log(addressComponents);
 
     map.setCenter(place.geometry.location);
     map.setZoom(15);

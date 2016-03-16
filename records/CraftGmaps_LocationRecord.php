@@ -12,6 +12,11 @@ class CraftGmaps_LocationRecord extends BaseRecord
     {
         return array(
             'formattedAddress' => array(AttributeType::String),
+            'street' => array(AttributeType::String),
+            'city' => array(AttributeType::String),
+            'state' => array(AttributeType::String),
+            'country' => array(AttributeType::String),
+            'zip' => array(AttributeType::String),
             'elementId' => array(AttributeType::Number),
             'lat' => array(AttributeType::String),
             'lng' => array(AttributeType::String),

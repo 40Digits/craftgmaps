@@ -17,13 +17,24 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
     {
         $textId = craft()->templates->formatInputId($name);
         $mapId = 'maps';
-        $lngId = 'lat';
-        $latId = 'lng';
+        $latId = 'lat';
+        $lngId = 'lng';
+        $streetId = 'street';
+        $cityId = 'city';
+        $stateId = 'state';
+        $countryId = 'country';
+        $zipId = 'zip';
 
         $namespacedTextId = craft()->templates->namespaceInputId($textId);
         $namespacedMapId = craft()->templates->namespaceInputId($mapId);
         $namespacedLngId = craft()->templates->namespaceInputId($lngId);
         $namespacedLatId = craft()->templates->namespaceInputId($latId);
+        $namespacedStreetId = craft()->templates->namespaceInputId($streetId);
+        $namespacedCityId = craft()->templates->namespaceInputId($cityId);
+        $namespacedStateId = craft()->templates->namespaceInputId($stateId);
+        $namespacedCountryId = craft()->templates->namespaceInputId($countryId);
+        $namespacedZipId = craft()->templates->namespaceInputId($zipId);
+
         $apiKey = "?key=" . craft()->plugins->getPlugin('craftgmaps')->getSettings()->googleMapsApiKey;
 
         craft()->templates->includeJsFile('//maps.googleapis.com/maps/api/js' . $apiKey . '&libraries=places');
@@ -32,8 +43,13 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
             "window.googleMapify(
                 '" . $namespacedTextId . "', 
                 '" . $namespacedMapId . "',
-                '" . $namespacedLngId . "',
                 '" . $namespacedLatId . "',
+                '" . $namespacedLngId . "',
+                '" . $namespacedStreetId . "',
+                '" . $namespacedCityId . "',
+                '" . $namespacedStateId . "',
+                '" . $namespacedCountryId . "',
+                '" . $namespacedZipId . "',
                 '" . $this->getSettings()->defaultLat . "',
                 '" . $this->getSettings()->defaultLng . "'
             );"
@@ -46,6 +62,11 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
             'mapId' => $mapId,
             'latId' => $latId,
             'lngId' => $lngId,
+            'streetId' => $streetId,
+            'cityId' => $cityId,
+            'stateId' => $stateId,
+            'countryId' => $countryId,
+            'zipId' => $zipId,
             'namespacedMapId' => $namespacedMapId,
             'settings' => $this->getSettings()
         ));
@@ -80,6 +101,11 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
                 $locationModel->formattedAddress = $value['formattedAddress'];
                 $locationModel->lat = $value['lat'];
                 $locationModel->lng = $value['lng'];
+                $locationModel->street = $value['street'];
+                $locationModel->city = $value['city'];
+                $locationModel->state = $value['state'];
+                $locationModel->country = $value['country'];
+                $locationModel->zip = $value['zip'];
                 $locationModel->elementId = $this->element->id;
 
                 if (!empty($value['locationId'])) {
