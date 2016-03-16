@@ -1,24 +1,30 @@
 function googleMapify(formattedAddressId, mapId, latId, lngId, defaultLat, defaultLng) {
-  var formattedAddressEl = document.getElementById(formattedAddressId);
-  var mapEl = document.getElementById(mapId);
-  var latEl = document.getElementById(latId);
-  var lngEl = document.getElementById(lngId);
-  var geocoder = new google.maps.Geocoder();
+  
+  //Dom nodes
+  var formattedAddressEl = document.getElementById(formattedAddressId),
+  mapEl = document.getElementById(mapId),
+  latEl = document.getElementById(latId),
+  lngEl = document.getElementById(lngId),
+  geocoder = new google.maps.Geocoder(),
+  searchTimeout,
+  mapCenter,
+  zoom;
+
 
   if (!!latEl.value && !!lngEl.value) {
-    var mapCenter = { 
+    mapCenter = { 
       lat: parseFloat(latEl.value),
       lng: parseFloat(lngEl.value)
-    }
+    };
     
-    var zoom = 12;
+    zoom = 12;
   } else {
-    var mapCenter = { 
+    mapCenter = { 
       lat: parseFloat(defaultLat),
       lng: parseFloat(defaultLng)
-    }
+    };
     
-    var zoom = 4;
+    zoom = 4;
   }
 
   var map = new google.maps.Map(mapEl, {
@@ -32,7 +38,7 @@ function googleMapify(formattedAddressId, mapId, latId, lngId, defaultLat, defau
     position: mapCenter,
   });
 
-  var geocodeResults = function(results, status, givenLocation) {
+  var geocodeResults = function geocodeResults(results, status, givenLocation) {
     if (status === google.maps.GeocoderStatus.OK && !!results[0]) {
       var result = results[0];
       var location = !!givenLocation ? givenLocation : result.geometry.location;
@@ -49,19 +55,18 @@ function googleMapify(formattedAddressId, mapId, latId, lngId, defaultLat, defau
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
     }
-  }
+  };
 
-  var geocodeSearch = function(address) {
+  var geocodeSearch = function geocodeSearch(address) {
     geocoder.geocode({ 'address': address }, geocodeResults);
   };
 
-  var updateValues = function(lat, lng, address) {
+  var updateValues = function updateValues(lat, lng, address) {
     formattedAddressEl.value = address;
     latEl.value = lat;
     lngEl.value = lng;
-  }
+  };
   
-  var searchTimeout;
   formattedAddressEl.addEventListener('keyup', function() {
     address = this.value;
     clearTimeout(searchTimeout);
@@ -75,4 +80,4 @@ function googleMapify(formattedAddressId, mapId, latId, lngId, defaultLat, defau
      geocodeResults(results, status, marker.getPosition());
     });
   });
-};
+}
