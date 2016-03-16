@@ -1,4 +1,4 @@
-function googleMapify(formattedAddressId, mapId, latId, lngId, defaultLat, defaultLng) {
+function googleMapify(formattedAddressId, mapId, latId, lngId, defaultLat, defaultLng, resultsId) {
   
   //Dom nodes
   var formattedAddressEl = document.getElementById(formattedAddressId),
@@ -6,10 +6,11 @@ function googleMapify(formattedAddressId, mapId, latId, lngId, defaultLat, defau
   latEl = document.getElementById(latId),
   lngEl = document.getElementById(lngId),
   geocoder = new google.maps.Geocoder(),
+  service = new google.maps.places.AutocompleteService();
+  autocomplete;
   searchTimeout,
   mapCenter,
   zoom;
-
 
   if (!!latEl.value && !!lngEl.value) {
     mapCenter = { 
@@ -49,8 +50,7 @@ function googleMapify(formattedAddressId, mapId, latId, lngId, defaultLat, defau
 
       updateValues(
           location.lat(), 
-          location.lng(), 
-          result.formatted_address
+          location.lng()
       );
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
@@ -61,23 +61,40 @@ function googleMapify(formattedAddressId, mapId, latId, lngId, defaultLat, defau
     geocoder.geocode({ 'address': address }, geocodeResults);
   };
 
-  var updateValues = function updateValues(lat, lng, address) {
-    formattedAddressEl.value = address;
+  var updateValues = function(lat, lng) {
     latEl.value = lat;
     lngEl.value = lng;
-  };
+  }
+
+  var initAutocomplete = function initAutocomplete() {
+    // Create the autocomplete object, restricting the search to geographical location types.
+    autocomplete = new google.maps.places.Autocomplete(
+        (document.getElementById(formattedAddressId)),
+        {types: ['geocode']});
+
+    // When the user selects an address from the dropdown, populate the address fields in the form.
+    autocomplete.addListener('place_changed', onPredictionSelection);
+  }
+
+  var onPredictionSelection = function onPredictionSelection() {
+    // Get the place details from the autocomplete object.
+    var place = autocomplete.getPlace();
+
+    updateValues(
+      place.geometry.location.lat(), 
+      place.geometry.location.lng()
+    )
   
-  formattedAddressEl.addEventListener('keyup', function() {
-    address = this.value;
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout( function() { 
-      geocodeSearch(address);
-    }, 750);
-  });
+    map.setCenter(place.geometry.location);
+    map.setZoom(15);
+    marker.setPosition(place.geometry.location);
+  }
 
   google.maps.event.addListener(marker, "dragend", function () {
     geocoder.geocode({ 'location': marker.getPosition() }, function(results, status) {
      geocodeResults(results, status, marker.getPosition());
     });
   });
-}
+
+  initAutocomplete();
+};
