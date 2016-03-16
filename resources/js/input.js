@@ -6,8 +6,8 @@ function googleMapify(formattedAddressId, mapId, latId, lngId, defaultLat, defau
   latEl = document.getElementById(latId),
   lngEl = document.getElementById(lngId),
   geocoder = new google.maps.Geocoder(),
-  service = new google.maps.places.AutocompleteService();
-  autocomplete;
+  service = new google.maps.places.AutocompleteService(),
+  autocomplete,
   searchTimeout,
   mapCenter,
   zoom;
