@@ -1,0 +1,29 @@
+{
+  "name": "craftgmaps",
+  "version": "1.0.0",
+  "description": "A simple Google Maps field type for CraftCMS",
+  "scripts": {
+    "build": "npm run build:js",
+    "watch": "npm run watch:js",
+    "build:js": "browserify -d -t [ babelify --presets [ es2015 ] ] -p errorify ./_src/js/main.js -o ./resources/js/input.js",
+    "watch:js": "chokidar \"./_src/js/**/*.js\" -c \"npm run build:js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/40Digits/craftgmaps.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/40Digits/craftgmaps/issues"
+  },
+  "homepage": "https://github.com/40Digits/craftgmaps#readme",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.3.13",
+    "babelify": "^7.2.0",
+    "browserify": "^13.0.0",
+    "chokidar": "^1.4.3",
+    "chokidar-cli": "^1.2.0",
+    "errorify": "^0.3.1"
+  }
+}

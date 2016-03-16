@@ -19,26 +19,23 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
         $mapId = 'maps';
         $lngId = 'lat';
         $latId = 'lng';
-        $resultsId = 'results';
 
         $namespacedTextId = craft()->templates->namespaceInputId($textId);
         $namespacedMapId = craft()->templates->namespaceInputId($mapId);
         $namespacedLngId = craft()->templates->namespaceInputId($lngId);
         $namespacedLatId = craft()->templates->namespaceInputId($latId);
-        $namespacedResultsId = craft()->templates->namespaceInputId($resultsId);
         $apiKey = "?key=" . craft()->plugins->getPlugin('craftgmaps')->getSettings()->googleMapsApiKey;
 
         craft()->templates->includeJsFile('//maps.googleapis.com/maps/api/js' . $apiKey . '&libraries=places');
         craft()->templates->includeJsResource('craftgmaps/js/input.js');
         craft()->templates->includeJs(
-            "googleMapify(
+            "window.googleMapify(
                 '" . $namespacedTextId . "', 
                 '" . $namespacedMapId . "',
                 '" . $namespacedLngId . "',
                 '" . $namespacedLatId . "',
                 '" . $this->getSettings()->defaultLat . "',
-                '" . $this->getSettings()->defaultLng . "',
-                '" . $namespacedResultsId . "'
+                '" . $this->getSettings()->defaultLng . "'
             );"
         );
 
@@ -49,7 +46,6 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
             'mapId' => $mapId,
             'latId' => $latId,
             'lngId' => $lngId,
-            'resultsId' => $resultsId,
             'namespacedMapId' => $namespacedMapId,
             'settings' => $this->getSettings()
         ));
