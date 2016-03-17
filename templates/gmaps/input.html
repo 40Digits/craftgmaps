@@ -1,12 +1,15 @@
 <input id="{{ textId }}" type="text" class="text fullwidth" name="{{ name }}[formattedAddress]" value="{{ location.formattedAddress }}">
 <input type="hidden" name="{{ name }}[locationId]" value="{{ location.id }}">
+
 <input id="{{ streetId }}" type="hidden" name="{{ name }}[street]" value="{{ location.street }}">
 <input id="{{ cityId }}" type="hidden" name="{{ name }}[city]" value="{{ location.city }}">
 <input id="{{ stateId }}" type="hidden" name="{{ name }}[state]" value="{{ location.state }}">
 <input id="{{ countryId }}" type="hidden" name="{{ name }}[country]" value="{{ location.country }}">
 <input id="{{ zipId }}" type="hidden" name="{{ name }}[zip]" value="{{ location.zip }}">
-<input id="{{ latId }}" type="hidden" name="{{ name }}[lat]" value="{{ location.lat }}">
-<input id="{{ lngId }}" type="hidden" name="{{ name }}[lng]" value="{{ location.lng }}">
+
+<input id="{{ zoomId }}" type="hidden" name="{{ name }}[zoom]" value="{{ location.zoom is empty ? settings.defaultZoom : location.zoom }}">
+<input id="{{ latId }}" type="hidden" name="{{ name }}[lat]" value="{{ location.lat is empty ? settings.defaultLat : location.lat }}">
+<input id="{{ lngId }}" type="hidden" name="{{ name }}[lng]" value="{{ location.lng is empty ? settings.defaultLng : location.lng}}">
 
 <style>
   #{{ namespacedMapId }} {

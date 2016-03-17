@@ -15,6 +15,7 @@ class CraftGmaps_LocationModel extends BaseModel
             'zip' => array(AttributeType::String),
             'elementId' => AttributeType::Number,
             'element' => AttributeType::ClassName,
+            'zoom' => AttributeType::Number,
             'lat' => AttributeType::String,
             'lng' => AttributeType::String,
         );

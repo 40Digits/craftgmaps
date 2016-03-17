@@ -1,20 +1,22 @@
 /* global google */
 
+// TODO refactor needed - it even affects the js
 window.googleMapify = function googleMapify(
     formattedAddressId,
     mapId,
+    zoomId,
     latId,
     lngId,
     streetId,
     cityId,
     stateId,
     countryId,
-    zipId,
-    defaultLat,
-    defaultLng
+    zipId
 ) {
+  // TODO refactor needed - it's here too
   const formattedAddressEl = document.getElementById(formattedAddressId);
   const mapEl = document.getElementById(mapId);
+  const zoomEl = document.getElementById(zoomId);
   const latEl = document.getElementById(latId);
   const lngEl = document.getElementById(lngId);
   const streetEl = document.getElementById(streetId);
@@ -32,26 +34,21 @@ window.googleMapify = function googleMapify(
     postal_code: 'short_name',
   };
   let autocomplete;
-  let mapCenter;
-  let zoom;
 
-  if (!!latEl.value && !!lngEl.value) {
-    mapCenter = {
-      lat: parseFloat(latEl.value),
-      lng: parseFloat(lngEl.value),
-    };
-    zoom = 12;
-  } else {
-    mapCenter = {
-      lat: parseFloat(defaultLat),
-      lng: parseFloat(defaultLng),
-    };
-    zoom = 4;
-  }
+  const mapCenter = {
+    lat: parseFloat(latEl.value),
+    lng: parseFloat(lngEl.value),
+  };
+  const zoom = parseInt(zoomEl.value, 0);
 
   const map = new google.maps.Map(mapEl, {
     center: mapCenter,
     zoom,
+    scrollwheel: false,
+    navigationControl: false,
+    mapTypeControl: false,
+    scaleControl: false,
+    draggable: true,
   });
 
   const marker = new google.maps.Marker({
@@ -63,6 +60,7 @@ window.googleMapify = function googleMapify(
   const updateValues = function updateValues(lat, lng, addressComponents) {
     latEl.value = lat;
     lngEl.value = lng;
+    zoomEl.value = map.getZoom();
 
     if (!!addressComponents) {
       streetEl.value = !!addressComponents.street_number ? addressComponents.street_number : '';
@@ -112,7 +110,6 @@ window.googleMapify = function googleMapify(
       place.geometry.location.lng(),
       addressComponents
     );
-    console.log(addressComponents);
 
     map.setCenter(place.geometry.location);
     map.setZoom(15);
@@ -136,6 +133,11 @@ window.googleMapify = function googleMapify(
     }, (results, status) => {
       geocodeResults(results, status, marker.getPosition());
     });
+  });
+
+  google.maps.event.addListener(map, 'zoom_changed', () => {
+    console.log(map.getZoom());
+    zoomEl.value = map.getZoom();
   });
 
   initAutocomplete();

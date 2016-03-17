@@ -22,6 +22,7 @@ class CraftGmaps_LocationService extends BaseApplicationComponent
             $locationRecord->setAttribute('lat', $locationModel->lat);
             $locationRecord->setAttribute('lng', $locationModel->lng);
             $locationRecord->setAttribute('elementId', $locationModel->elementId);
+            $locationRecord->setAttribute('zoom', $locationModel->zoom);
             $locationRecord->save();
             $locationModel->setAttribute('id', $locationRecord->getAttribute('id'));
             return true;

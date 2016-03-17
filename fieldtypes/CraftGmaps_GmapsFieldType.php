@@ -15,8 +15,10 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
 
     public function getInputHtml($name, $locationModel)
     {
+        //TODO refactor needed - let's find a way to not have to do this
         $textId = craft()->templates->formatInputId($name);
         $mapId = 'maps';
+        $zoomId = 'zoom';
         $latId = 'lat';
         $lngId = 'lng';
         $streetId = 'street';
@@ -25,10 +27,12 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
         $countryId = 'country';
         $zipId = 'zip';
 
+        //TODO refactor needed - there's gotta be a better way
         $namespacedTextId = craft()->templates->namespaceInputId($textId);
         $namespacedMapId = craft()->templates->namespaceInputId($mapId);
-        $namespacedLngId = craft()->templates->namespaceInputId($lngId);
+        $namespacedZoomId = craft()->templates->namespaceInputId($zoomId);
         $namespacedLatId = craft()->templates->namespaceInputId($latId);
+        $namespacedLngId = craft()->templates->namespaceInputId($lngId);
         $namespacedStreetId = craft()->templates->namespaceInputId($streetId);
         $namespacedCityId = craft()->templates->namespaceInputId($cityId);
         $namespacedStateId = craft()->templates->namespaceInputId($stateId);
@@ -39,27 +43,29 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
 
         craft()->templates->includeJsFile('//maps.googleapis.com/maps/api/js' . $apiKey . '&libraries=places');
         craft()->templates->includeJsResource('craftgmaps/js/input.js');
+        //TODO refactor needed - oh my god
         craft()->templates->includeJs(
             "window.googleMapify(
                 '" . $namespacedTextId . "', 
                 '" . $namespacedMapId . "',
+                '" . $namespacedZoomId . "',
                 '" . $namespacedLatId . "',
                 '" . $namespacedLngId . "',
                 '" . $namespacedStreetId . "',
                 '" . $namespacedCityId . "',
                 '" . $namespacedStateId . "',
                 '" . $namespacedCountryId . "',
-                '" . $namespacedZipId . "',
-                '" . $this->getSettings()->defaultLat . "',
-                '" . $this->getSettings()->defaultLng . "'
+                '" . $namespacedZipId . "'
             );"
         );
 
+        //TODO refactor needed - this is terrible
         return craft()->templates->render('craftgmaps/gmaps/input', array(
             'name'  => $name,
             'location' => $locationModel,
             'textId' => $textId,
             'mapId' => $mapId,
+            'zoomId' => $zoomId,
             'latId' => $latId,
             'lngId' => $lngId,
             'streetId' => $streetId,
@@ -76,7 +82,8 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
     {
         return array(
             'defaultLat' => array(AttributeType::String),
-            'defaultLng' => array(AttributeType::String)
+            'defaultLng' => array(AttributeType::String),
+            'defaultZoom' => array(AttributeType::Number)
         );
     }
 
@@ -87,7 +94,9 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
         ));
     }
 
-    public function prepValueFromPost($value) {}
+    public function prepValueFromPost($value)
+    {
+    }
 
     public function onAfterElementSave()
     {
@@ -99,6 +108,7 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
 
                 $locationModel = new CraftGmaps_LocationModel();
                 $locationModel->formattedAddress = $value['formattedAddress'];
+                $locationModel->zoom = $value['zoom'];
                 $locationModel->lat = $value['lat'];
                 $locationModel->lng = $value['lng'];
                 $locationModel->street = $value['street'];

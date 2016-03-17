@@ -18,6 +18,7 @@ class CraftGmaps_LocationRecord extends BaseRecord
             'country' => array(AttributeType::String),
             'zip' => array(AttributeType::String),
             'elementId' => array(AttributeType::Number),
+            'zoom' => array(AttributeType::Number),
             'lat' => array(AttributeType::String),
             'lng' => array(AttributeType::String),
         );
