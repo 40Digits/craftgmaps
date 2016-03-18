@@ -31,6 +31,24 @@ class CraftGmaps_LocationService extends BaseApplicationComponent
         }
     }
 
+    public function findLocationsByField($fieldSlug)
+    {
+
+        $criteria = new \CDbCriteria;
+        $criteria->select = '*';
+        $criteria->join = 'INNER JOIN `craft_elements` ON craft_elements.id = `t`.`elementId`'
+                        . 'INNER JOIN `craft_content` ON `craft_content`.`elementId` = `craft_elements`.`id`';
+        $criteria->condition = '`field_' . $fieldSlug . '` IS NOT NULL';
+        $records = CraftGmaps_LocationRecord::model()->findAll($criteria);
+
+        $models = [];
+        foreach ($records as $record) {
+            $models[] = $this->populateModel($record);
+        }
+        
+        return $models;
+    }
+
     public function find($id)
     {
         $locationRecord = null;
