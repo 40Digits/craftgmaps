@@ -18,3 +18,7 @@ We encourage you to contribute to this plugin! Here are details how to set it up
   * Uses babel and ES2015
 5. Symlink the repo to your Craft install's plugin repo
 6. Install in the admin interface
+
+## License
+
+This plugin is released under the [MIT License](http://www.opensource.org/licenses/MIT).
