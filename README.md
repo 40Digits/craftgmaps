@@ -2,7 +2,73 @@
 
 ## Getting Started
 
-I promise this will be filled in at some point
+1. Download and copy to plugins directory.
+  * Make sure to name this plugin's folder `craftgmaps/`
+  * A quick command to do this from the root of your Craft project is `mkdir tmp && curl -L https://github.com/40Digits/craftgmaps/archive/master.zip -o tmp/craftgmaps.zip && unzip tmp/craftgmaps.zip -d tmp/ && cp -r tmp/craftgmaps craft/plugins/.; rm -rf tmp/;` (note: this won't work currently because it's a private repo).
+2. Enable the plugin via the admin interface
+3. Add a field with the "Google Maps" fieldtype
+4. Create an entry and fill in the address field. (Make sure to click on one of the autocompleted address).
+5. Now your template will return a `CraftGmaps_LocationModel` which has attributes like `lat`, `lng`, and `formattedAddress`.   * If you need help adding a marker to a map check out our [example usage](example usage).
+
+## Settings
+
+### Plugin Settings
+
+If you anticipate lots of admin usage (like more than 2500 requests per day) then you'll need to create a Google Maps API key. If for no other reason to remove that pesky console mesage, it's still a good idea to add a key (they are free).
+
+TODO add picture of plugin settings
+
+### Field Settings
+
+For each Google Maps field, you have the options to add a Default Latitude, Default Longitude, and Default Zoom. This is what the map defaults to in the admin interface.
+
+TODO Add picture of field settings
+
+## Template Variable
+
+We also provide a template variable/method that allows you to retrieve all the locations associated with a specific field. Example usage:
+
+```
+{% for location in craft.craftGmaps.findLocationsByField(‘fieldSlug') %}
+      Lat: {{ location.lat }}
+      Lng: {{ location.lng }}
+{% endfor %}
+```
+## Example Usage
+
+### Single Marker on a Map
+
+I wouldn’t suggest using this for production, but it’s an easy proof of concept.
+
+```
+    <div id="map" style="height: 400px; width: 400px;"></div>
+
+    <script>
+      function initMap() {
+        var myLatLng = { lat: {{ entry.fieldSlug.lat }}, lng: {{ entry.fieldSlug.lng }} };
+
+        var zoom = {{ entry.fieldSlug.zoom }};
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: zoom,
+          center: myLatLng
+        });
+
+        var marker = new google.maps.Marker({
+          position: myLatLng,
+          map: map,
+          title: 'My Location!'
+        });
+      }
+    </script>
+
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?&callback=initMap">
+    </script>
+```
+
+### Multiple Markers on a Map
+TODO Add example usage for multiple markers on a map
 
 ## Contributing
 
