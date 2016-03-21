@@ -8,7 +8,8 @@
 2. Enable the plugin via the admin interface
 3. Add a field with the "Google Maps" fieldtype
 4. Create an entry and fill in the address field. (Make sure to click on one of the autocompleted address).
-5. Now your template will return a `CraftGmaps_LocationModel` which has attributes like `lat`, `lng`, and `formattedAddress`.   * If you need help adding a marker to a map check out our [example usage](example usage).
+5. Now your template will return a `CraftGmaps_LocationModel` which has attributes like `lat`, `lng`, and `formattedAddress`.
+  * If you need help adding a marker to a map check out our [example usage](#example-usage).
 
 ## Settings
 
@@ -16,13 +17,9 @@
 
 If you anticipate lots of admin usage (like more than 2500 requests per day) then you'll need to create a Google Maps API key. If for no other reason to remove that pesky console mesage, it's still a good idea to add a key (they are free).
 
-TODO add picture of plugin settings
-
 ### Field Settings
 
 For each Google Maps field, you have the options to add a Default Latitude, Default Longitude, and Default Zoom. This is what the map defaults to in the admin interface.
-
-TODO Add picture of field settings
 
 ## Template Variable
 
