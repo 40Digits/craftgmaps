@@ -1,5 +1,9 @@
 # A Simple Google Maps Field Type for CraftCMS
 
+## Overview
+
+This is a plugin that provides a simple Field Type for CraftCMS. It's very similar to ACF's Google Maps Field with a few twists. First of all, it stores all of the locations in a separate table. Secondly, it stores address components and lat/lng as different fields on a row. 
+
 ## Getting Started
 
 1. Download and copy to plugins directory.
