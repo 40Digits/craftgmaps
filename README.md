@@ -76,7 +76,8 @@ TODO Add example usage for multiple markers on a map
 We encourage you to contribute to this plugin! Here are details how to set it up locally for development:
 
 1. Setup a Craft install.
-  * I have one local install that I use to develop all Craft plugins.
+  * I have one local install that I use to develop all Craft plugins
+  * Check out our [boilerplate](https://github.com/40Digits/craft-boilerplate) for an example setup of Craft
 2. Fork this repo
 3. Clone the forked repo to your local
   * We would suggest doing this outside of the Craft install
