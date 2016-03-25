@@ -15,6 +15,36 @@ class CraftGmapsPlugin extends BasePlugin
     }
 
     /**
+     * Plugins can have descriptions of themselves displayed on the Plugins page by adding a getDescription() method
+     * on the primary plugin class:
+     *
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return Craft::t('A simple Google Maps field type for CraftCMS');
+    }
+    
+    /**
+     * Plugins can have links to their documentation on the Plugins page by adding a getDocumentationUrl() method on
+     * the primary plugin class:
+     *
+     * @return string
+     */
+    public function getDocumentationUrl()
+    {
+        return 'https://github.com/40Digits/craftgmaps';
+    }
+
+    /**
+     * Icon in admin plugin area
+     */
+    public function getIconPath()
+    {
+        return craft()->path->getPluginsPath() . '/icon.svg';
+    }
+
+    /**
      * Get version number
      *
      * Be sure to update this when you have a new migration
@@ -43,7 +73,7 @@ class CraftGmapsPlugin extends BasePlugin
      */
     public function getDeveloperUrl()
     {
-        return 'www.davidhahn.me';
+        return '40digits.com';
     }
 
     protected function defineSettings()
