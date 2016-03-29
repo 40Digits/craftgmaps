@@ -58,6 +58,10 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
                 '" . $namespacedZipId . "'
             );"
         );
+        
+        $settings = $this->getSettings();
+        $settings->defaultLng = -93.2980556;
+        $settings->defaultLat = 37.2152778;
 
         //TODO refactor needed - this is terrible
         return craft()->templates->render('craftgmaps/gmaps/input', array(
@@ -74,16 +78,28 @@ class CraftGmaps_GmapsFieldType extends BaseFieldType
             'countryId' => $countryId,
             'zipId' => $zipId,
             'namespacedMapId' => $namespacedMapId,
-            'settings' => $this->getSettings()
+            'settings' => $settings
         ));
     }
 
     protected function defineSettings()
     {
         return array(
-            'defaultLat' => array(AttributeType::String),
-            'defaultLng' => array(AttributeType::String),
-            'defaultZoom' => array(AttributeType::Number)
+            'defaultLat' => array(
+                AttributeType::String,
+                'required' => true,
+                'default' => '37.2152778'
+            ),
+            'defaultLng' => array(
+                AttributeType::String,
+                'required' => true,
+                'default' => '-93.2980556',
+            ),
+            'defaultZoom' => array(
+                AttributeType::Number,
+                'required' => true,
+                'default' => 15
+            ),
         );
     }
 

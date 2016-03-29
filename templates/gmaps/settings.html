@@ -1,29 +1,53 @@
 <div class="field">
   <div class="heading">
-    <label>Default Latitude</label>
+    <label class="required">Default Latitude</label>
   </div>
 
   <div class="input ltr">
-    <input class="text code fullwidth" type="text" name="defaultLat" value="{{ settings.defaultLat ? settings.defaultLat : '-98.583' }}">
+    <input class="text code fullwidth" type="text" name="defaultLat" value="{{ settings.defaultLat }}">
+
+    {% if settings.hasErrors('defaultLat') %}
+      <ul class="errors">
+        {% for error in settings.getErrors('defaultLat') %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul> 
+    {% endif %}
   </div>
 </div>
 
 <div class="field">
   <div class="heading">
-    <label>Default Longitude</label>
+    <label class="required">Default Longitude</label>
   </div>
 
   <div class="input ltr">
-    <input class="text code fullwidth" type="text" name="defaultLng" value="{{ settings.defaultLng ? settings.defaultLng : '39.833' }}">
+    <input class="text code fullwidth" type="text" name="defaultLng" value="{{ settings.defaultLng }}">
+
+    {% if settings.hasErrors('defaultLng') %}
+      <ul class="errors">
+        {% for error in settings.getErrors('defaultLng') %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul> 
+    {% endif %}
   </div>
 </div>
 
 <div class="field">
   <div class="heading">
-    <label>Default Zoom</label>
+    <label class="required">Default Zoom</label>
   </div>
 
   <div class="input ltr">
-    <input class="text code fullwidth" type="number" name="defaultZoom" value="{{ settings.defaultZoom ? settings.defaultZoom : '15' }}">
+    <input class="text code fullwidth" type="number" name="defaultZoom" value="{{ settings.defaultZoom }}">
+
+    {% if settings.hasErrors('defaultZoom') %}
+      <ul class="errors">
+        {% for error in settings.getErrors('defaultZoom') %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul> 
+    {% endif %}
   </div>
 </div>
